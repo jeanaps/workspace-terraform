@@ -1,0 +1,49 @@
+ 
+- hosts: all
+  remote_user: vagrant
+  become: yes
+  tasks:
+    - name: Ajustando Timezone
+      timezone:
+        name: America/Sao_Paulo
+- hosts: controller
+  remote_user: vagrant
+  become: yes
+  tasks:
+    - name: Criando o Arquivo Info
+      lineinfile:
+        path: /tmp/info
+        create: yes
+        line: SERVIDOR ANSIBLE CONTROLLER
+        state: present
+        #regexp: '^SELINUX='
+        #line: SELINUX=enforcing
+    #- name: Definindo a Senha de Administrador do MySQL
+      #debconf: name='mysql-server' question='mysql-server/root_password' value='123' vtype='password'
+- hosts: terraform
+  remote_user: vagrant
+  become: yes
+  tasks:
+    - name: Unzip file download
+      unarchive:
+        src: https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip
+        dest: /usr/local/bin/terraform
+        remote_src: yes
+
+
+#    - name: Baixando Terraform
+#        get_url:
+#        url: https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip
+#        dest: /tmp/terraform
+#        mode: '0440'
+#    - name: Descompactando Download Terraform
+#        unarchive:
+#          src: /tmp/terraform
+#          dest: /usr/local/bin
+#          remote_src: yes
+#      apt:
+#        state: present
+#        update_cache: yes
+#        pkg: 
+#          - mysql-server
+#          - python-pymysql

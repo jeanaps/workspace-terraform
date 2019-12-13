@@ -1,0 +1,5 @@
+[controllers]
+controller ansible_connection=local
+
+[hosts]
+terraform ansible_ssh_host=192.168.38.240 ansible_ssh_private_key_file=/vagrant/.vagrant/machines/db/virtualbox/private_key
